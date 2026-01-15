@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../model/venue_model.dart';
 import '../service/venue_service.dart';
 import 'form_screen.dart';
+import 'booking_screen.dart'; // Menghubungkan ke kodingan booking tadi
 
 class DetailScreen extends StatelessWidget {
   final Venue venue;
@@ -87,11 +88,44 @@ class DetailScreen extends StatelessWidget {
                   const Text("Deskripsi", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   Text(venue.description, style: const TextStyle(fontSize: 16, height: 1.5)),
+                  const SizedBox(height: 100), // Memberi ruang agar tidak tertutup tombol bottomNavigationBar
                 ],
               ),
             ),
           ),
         ],
+      ),
+      // Integrasi Tombol Booking Baru
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, -2))
+          ],
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+          onPressed: () {
+            // Navigasi dengan data yang sesuai kodingan BookingScreen sebelumnya
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookingPage(
+                  idGedung: venue.id!,
+                  namaGedung: venue.name,
+                  hargaPerJam: venue.pricePerHour.toDouble(),
+                ),
+              ),
+            );
+          },
+          child: const Text("BOOKING SEKARANG", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }
